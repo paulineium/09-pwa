@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your Personal Journaling Oasis">
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="192x192" href="./images/192x192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="./images/512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./style.css">
+    <title>MindfulPages - Your Personal Journaling Oasis</title>
+
+    <!-- Additional scripts -->
+    <script src="./textEditor.js"></script>
+    <script src="./imageUpload.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>MindfulPages</h1>
+        <p>Your Personal Journaling Oasis</p>
+    </header>
+
+    <main>
+        <!-- User name display -->
+        <div id="username-display"></div>
+
+        <!-- Script for getting and saving username -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                let username = localStorage.getItem('username');
+                if (!username) {
+                    username = prompt('Please enter your username:');
+                    localStorage.setItem('username', username);
+                }
+                document.getElementById('username-display').textContent = `Welcome, ${username}!`;
+            });
+        </script>
+
+        <!-- Toggle Button for Customization Options -->
+        <div id="customization-toggle" onclick="toggleCustomization">
+            <span style="font-size: 20px;">▶ Customize your text</span>
+        </div>
+
+        <!-- Combined Customization Options (Initially Hidden) -->
+        <div id="customization" style="display: none;">
+            <label style="font-size: 20px;" for="text-options">Choose font:</label>
+            <select id="text-options">
+                <option value="arial">Arial</option>
+                <option value="times">Times New Roman</option>
+            </select>
+            <button onclick="formatText('bold')">Bold</button>
+            <button onclick="formatText('italic')">Italic</button>
+        </div>
+
+        <!-- Journal Entry Form with Formatting Options -->
+        <div id="text-editor">
+            <textarea id="journal-entry" placeholder="Write your thoughts or gratitude here..."></textarea>
+            <button id="save-button" onclick="saveEntry()">Save</button>
+        </div>
+
+        <!-- User name display and "My Entries" Button -->
+        <div id="header-content">
+            <button onclick="goToMyEntries()">My Entries</button>
+            <div id="username-display"></div>
+        </div>
+
+
+        <script>
+            // Function to navigate to the "My Entries" page
+            function goToMyEntries() {
+                window.location.href = 'myEntries.html';
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                let username = localStorage.getItem('username');
+                const entriesList = document.getElementById('journal-entry');
+
+                function saveEntry() {
+                    const entry = document.getElementById('journal-entry').value;
+                    const msg = { user: username, content: entry, date: new Date() };
+
+                    // Save entry to localStorage
+                    const entries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+                    entries.push(msg);
+                    localStorage.setItem('journalEntries', JSON.stringify(entries));
+
+                    // Update journal entries display
+                    const entryItem = document.createElement('li');
+                    entryItem.textContent = `${msg.user}: ${msg.content}`;
+                    entriesList.appendChild(entryItem);
+
+                    document.getElementById('journal-entry').value = '';
+                }
+
+                socket.on('journal entry', (msg) => {
+                    const entryItem = document.createElement('li');
+                    entryItem.textContent = `${msg.user}: ${msg.content}`;
+                    document.getElementById('journal-entr').appendChild(entryItem);
+                });
+
+            });
+        </script>
+    </main>
+</body>
+
+</html>
