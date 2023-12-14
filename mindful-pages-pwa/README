@@ -1,0 +1,18 @@
+
+🖨  MindfulPages is a Progressive Web App (PWA) designed to be 
+your personal journaling oasis, allowing users to capture their thoughts, 
+reflections, and daily musings in a simple and accessible way. 
+
+My process for developing this web app was pretty straightforward, although not easy. 
+I decided to stick with my original idea of an online journaling app, taking my main inspiration from Notion. 
+- It has the main functionality (is installable) and its own icons that I made using MidJourney. 
+(I might change them later to fit the design better). I had a few ideas in mind in terms of the functionality 
+for this app: "Some of the key features include user authentication, entry creation and editing,
+ and media integration (potentially an export and share option, searching, and reminders)." which was a bit
+ of an ambitious goal (as correctly pointed in class). 
+
+ I spent a lot of time on User Experience design, which resulted in the app lacking some of the planned
+ functionality, unfortunately. It's definitely in future plans though to fix it so that a user is able to 
+ save and retrieve their past entries, as well as edit them and add images.
+
+
