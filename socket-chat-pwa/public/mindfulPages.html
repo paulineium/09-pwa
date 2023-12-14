@@ -26,8 +26,14 @@
     </header>
 
     <main>
-        <!-- User name display -->
-        <div id="username-display"></div>
+        <!-- User name display and "My Entries" Link -->
+        <div id="header-content">
+            <div id="username-container">
+                <div id="username-display"></div>
+            </div>
+            <a href="myEntries.html" id="my-entries-link">My Entries</a>
+        </div>
+
 
         <!-- Script for getting and saving username -->
         <script>
@@ -53,8 +59,8 @@
                 <option value="arial">Arial</option>
                 <option value="times">Times New Roman</option>
             </select>
-            <button onclick="formatText('bold')">Bold</button>
-            <button onclick="formatText('italic')">Italic</button>
+            <button id="bold-button">Bold</button>
+            <button id="italic-button">Italic</button>
         </div>
 
         <!-- Journal Entry Form with Formatting Options -->
@@ -63,22 +69,10 @@
             <button id="save-button" onclick="saveEntry()">Save</button>
         </div>
 
-        <!-- User name display and "My Entries" Button -->
-        <div id="header-content">
-            <button onclick="goToMyEntries()">My Entries</button>
-            <div id="username-display"></div>
-        </div>
-
-
         <script>
-            // Function to navigate to the "My Entries" page
-            function goToMyEntries() {
-                window.location.href = 'myEntries.html';
-            }
-
             document.addEventListener('DOMContentLoaded', () => {
                 let username = localStorage.getItem('username');
-                const entriesList = document.getElementById('journal-entry');
+                const entriesList = document.getElementById('journal-entries');
 
                 function saveEntry() {
                     const entry = document.getElementById('journal-entry').value;
@@ -89,22 +83,23 @@
                     entries.push(msg);
                     localStorage.setItem('journalEntries', JSON.stringify(entries));
 
-                    // Update journal entries display
-                    const entryItem = document.createElement('li');
-                    entryItem.textContent = `${msg.user}: ${msg.content}`;
-                    entriesList.appendChild(entryItem);
-
-                    document.getElementById('journal-entry').value = '';
+                    // Update the entries on the current page
+                    updateEntriesList(entries);
                 }
 
-                socket.on('journal entry', (msg) => {
-                    const entryItem = document.createElement('li');
-                    entryItem.textContent = `${msg.user}: ${msg.content}`;
-                    document.getElementById('journal-entr').appendChild(entryItem);
-                });
+                function updateEntriesList(entries) {
+                    entriesList.innerHTML = '';
 
+                    entries.forEach(entry => {
+                        const entryItem = document.createElement('li');
+                        entryItem.textContent = `${entry.user}: ${entry.content}`;
+                        entriesList.appendChild(entryItem);
+                    });
+                }
             });
         </script>
+
+
     </main>
 </body>
 
